@@ -32,6 +32,7 @@ export default [
       "no-unused-vars": "off",
       "no-debugger": "off",
       "react/prop-types": "off",
+      "react/no-unescaped-entities": "off",
       "react-refresh/only-export-components": [
         "warn",
         { allowConstantExport: true },
