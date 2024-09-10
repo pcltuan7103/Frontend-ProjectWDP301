@@ -1,14 +1,18 @@
 import React, { useState } from "react";
 import {
   LoginOutlined,
-  FileAddOutlined,
+  LogoutOutlined,
   HomeOutlined,
   UserAddOutlined,
+  UserOutlined,
+  FileAddOutlined,
+  SettingOutlined,
 } from "@ant-design/icons";
 import { Menu } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { doLogout } from "../../redux/action/userAction";
+import "./Header.scss"; // Import the CSS file for styling
 
 const Header = () => {
   const [current, setCurrent] = useState("home");
@@ -30,12 +34,15 @@ const Header = () => {
     navigate("/");
   };
 
-  const items = [
+  const itemsLeft = [
     {
       label: <Link to="/">Home Page</Link>,
       key: "home",
       icon: <HomeOutlined />,
     },
+  ];
+
+  const itemsRight = [
     ...(isAuthenticated === false
       ? [
           {
@@ -48,32 +55,50 @@ const Header = () => {
             key: "signup",
             icon: <UserAddOutlined />,
           },
+          {
+            label: <Link to="/homepostjob">Post Job and Recruit Resumes</Link>,
+            key: "employer",
+            icon: <FileAddOutlined />,
+          },
         ]
       : [
           {
-            label: <span onClick={handleLogout}>Log Out</span>,
-            key: "logout",
-            icon: <UserAddOutlined />,
+            label: <span>Setting</span>,
+            key: "setting",
+            icon: <SettingOutlined />,
+            children: [
+              {
+                label: <span onClick={handleLogout}>Log Out</span>,
+                key: "logout",
+                icon: <LogoutOutlined />,
+              },
+              {
+                label: <span>Welcome {account.username}</span>,
+                key: "account",
+                icon: <UserOutlined />,
+              },
+            ],
           },
         ]),
-    ...(isAuthenticated === true
-      ? [
-          {
-            label: <span>Welcome{account.username}</span>,
-            key: "account",
-            icon: <UserAddOutlined />,
-          },
-        ]
-      : []),
   ];
 
   return (
-    <Menu
-      onClick={onClick}
-      selectedKeys={[current]}
-      mode="horizontal"
-      items={items}
-    />
+    <div className="header-container">
+      <Menu
+        onClick={onClick}
+        selectedKeys={[current]}
+        mode="horizontal"
+        items={itemsLeft}
+        className="menu-left"
+      />
+      <Menu
+        onClick={onClick}
+        selectedKeys={[current]}
+        mode="horizontal"
+        items={itemsRight}
+        className="menu-right"
+      />
+    </div>
   );
 };
 

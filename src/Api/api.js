@@ -12,4 +12,10 @@ const loginUser = (email, password) => {
   return axios.post(URL_API, data);
 };
 
-export { registerUser, loginUser };
+const registerEmployer = (email, password, username) => {
+  const URL_API = "/v1/api/register-employer";
+  const data = { email, password, username };
+  return axios.post(URL_API, data);
+};
+
+export { registerUser, loginUser, registerEmployer };

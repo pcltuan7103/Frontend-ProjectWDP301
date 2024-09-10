@@ -10,6 +10,9 @@ const HomePage = () => {
   const account = useSelector((state) => {
     return state.user.account;
   });
+  if (account.role === "employer" || account.role === "admin") {
+    return <div>You're not allowed to access this page</div>;
+  }
   return (
     <div style={{ padding: "28px" }}>
       <Result icon={<CrownOutlined />} title="FullStack JS - JWT" />
