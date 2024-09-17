@@ -49,7 +49,7 @@ const LoginUser = () => {
               borderRadius: "5px",
             }}
           >
-            <legend>Sign Up</legend>
+            <legend>Log In</legend>
             <Form
               name="basic"
               onFinish={onFinish}
@@ -93,7 +93,7 @@ const LoginUser = () => {
             </Link>
             <Divider />
             <div style={{ textAlign: "center" }}>
-              Already have an account? <Link to={"/login-user"}>Log In</Link>
+              Already have an account? <Link to={"/login-user"}>Sign Up</Link>
             </div>
           </fieldset>
         </Col>

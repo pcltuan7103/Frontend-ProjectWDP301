@@ -14,6 +14,7 @@ import HomeEmployerPage from "./pages/HomePage/HomeEmployerPage.jsx";
 import RegisterEmployer from "./pages/Register/RegisterEmployerPage.jsx";
 import LoginEmployerPage from "./pages/Login/LoginEmployerPage.jsx";
 import PostJob from "./pages/PostJob/PostJob.jsx";
+import Profile from "./pages/ProfileUser/Profile.jsx";
 
 const router = createBrowserRouter([
   {
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <HomePage />,
+      },
+      {
+        path: "/profile/:id",
+        element: <Profile />,
       },
     ],
   },

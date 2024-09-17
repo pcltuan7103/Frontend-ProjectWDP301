@@ -18,4 +18,9 @@ const registerEmployer = (email, password, username) => {
   return axios.post(URL_API, data);
 };
 
-export { registerUser, loginUser, registerEmployer };
+const updateUser = (userId, updateData) => {
+  const URL_API = `/v1/api/update-user/${userId}`; // Ensure this matches your backend route
+  return axios.put(URL_API, updateData);
+};
+
+export { registerUser, loginUser, registerEmployer, updateUser };

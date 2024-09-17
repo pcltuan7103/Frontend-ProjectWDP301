@@ -1,4 +1,8 @@
-import { DO_LOGOUT, FETCH_USER_LOGIN_SUCCESS } from "../action/userAction";
+import {
+  DO_LOGOUT,
+  FETCH_USER_LOGIN_SUCCESS,
+  UPDATE_USERNAME_SUCCESS,
+} from "../action/userAction";
 
 const INITIAL_STATE = {
   account: {
@@ -7,6 +11,7 @@ const INITIAL_STATE = {
     refresh_token: "",
     username: "",
     role: "",
+    id: "",
   },
   isAuthenticated: false,
 };
@@ -21,8 +26,17 @@ const userReducer = (state = INITIAL_STATE, action) => {
           username: action?.payload?.user?.username,
           role: action?.payload?.user?.role?.name,
           email: action?.payload?.user?.email,
+          id: action?.payload?.user?._id,
         },
         isAuthenticated: true,
+      };
+    case UPDATE_USERNAME_SUCCESS:
+      return {
+        ...state,
+        account: {
+          ...state.account,
+          username: action.payload, // Update the username in state
+        },
       };
     case DO_LOGOUT:
       return INITIAL_STATE;
