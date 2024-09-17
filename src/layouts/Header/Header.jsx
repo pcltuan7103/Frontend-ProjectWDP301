@@ -73,7 +73,11 @@ const Header = () => {
                 icon: <LogoutOutlined />,
               },
               {
-                label: <span>Welcome {account.username}</span>,
+                label: (
+                  <Link to={`/profile/${account.id}`}>
+                    Welcome {account.username}
+                  </Link>
+                ),
                 key: "account",
                 icon: <UserOutlined />,
               },

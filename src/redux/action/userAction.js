@@ -14,3 +14,12 @@ export const doLogout = () => {
     type: DO_LOGOUT,
   };
 };
+
+export const UPDATE_USERNAME_SUCCESS = "UPDATE_USERNAME_SUCCESS";
+
+export const updateUserSuccess = (username) => {
+  return {
+    type: UPDATE_USERNAME_SUCCESS,
+    payload: username,
+  };
+};
