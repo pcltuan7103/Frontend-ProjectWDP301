@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Button, Form, Input, message, notification } from "antd";
 import { updateUserSuccess } from "../../redux/action/userAction";
-import { updateUser } from "../../Api/api";
+import { updateUser } from "../../Api/api"; // Ensure this path is correct
 
 const Profile = () => {
   const account = useSelector((state) => state.user.account);
@@ -15,14 +15,21 @@ const Profile = () => {
       const updateData = {
         username: values.username, // Extract the updated username
       };
-      // Make PUT request to update the user profile
+
+      // Call the updateUser API
       const res = await updateUser(account.id, updateData);
-      dispatch(updateUserSuccess(res.data.user.username)); // Update Redux store with new username
+
+      console.log(res);
+      // Dispatch action to update the Redux store with the new username
+      dispatch(updateUserSuccess(res.username)); // Adjust this based on your API response
+
+      // Show a success notification
       notification.success({
         message: "Update User",
         description: "User updated successfully.",
       });
     } catch (error) {
+      console.error("Update failed", error);
       message.error("Failed to update user");
     }
   };
