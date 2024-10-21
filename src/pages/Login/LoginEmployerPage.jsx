@@ -88,7 +88,7 @@ const LoginUser = () => {
             </Link>
             <Divider />
             <div style={{ textAlign: "center" }}>
-              Already have an account? <Link to={"/login-user"}>Log In</Link>
+              Already have an account? <Link to={"/register-employer"}>Log In</Link>
             </div>
           </fieldset>
         </Col>

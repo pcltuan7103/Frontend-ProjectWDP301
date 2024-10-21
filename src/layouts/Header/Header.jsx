@@ -7,6 +7,7 @@ import {
   UserOutlined,
   FileAddOutlined,
   SettingOutlined,
+  FileOutlined,
 } from "@ant-design/icons";
 import { Menu } from "antd";
 import { Link, useNavigate } from "react-router-dom";
