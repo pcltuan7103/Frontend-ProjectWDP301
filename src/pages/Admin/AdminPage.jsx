@@ -1,5 +1,8 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import SideBarAdmin from "../../layouts/SideBar/SideBarAdmin";
+import { Outlet } from "react-router-dom";
+import "./AdminPage.scss"
 
 const AdminPage = () => {
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
@@ -13,7 +16,10 @@ const AdminPage = () => {
     return <div>You're not allowed to access this page</div>;
   }
 
-  return <div>Hello, Admin!</div>;
+  return (<div id="admin">
+      <SideBarAdmin />
+        <Outlet/>
+  </div>)
 };
 
 export default AdminPage;
