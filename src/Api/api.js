@@ -58,6 +58,21 @@ const acceptJob = (jobId) => {
     return axios.put(URL_API)
 }
 
+const getJobById = (jobId) => {
+    const URL_API = `job/${jobId}`
+    return axios.get(URL_API)
+}
+
+const updateJob = (jobId, values) => {
+    const URL_API = `job/${jobId}`
+    return axios.put(URL_API, values)
+}
+
+const deleteJob = (jobId) => {
+    const URL_API = `Job/${jobId}`
+    return axios.delete(URL_API)
+}
+
 export {
     registerUser,
     loginUser,
@@ -69,5 +84,8 @@ export {
     getJobByEmployerId,
     getUnacceptedJob,
     acceptJob,
-    getAcceptedJob
+    getAcceptedJob,
+    getJobById,
+    updateJob,
+    deleteJob
 };

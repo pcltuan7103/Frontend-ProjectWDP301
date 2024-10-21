@@ -20,6 +20,7 @@ import AddJob from "./pages/ManageJobs/AddJob/AddJob.jsx";
 import ListJob from "./pages/ManageJobs/ListJob/ListJob.jsx";
 import ListUnacceptedJobs from "./pages/Admin/ManageJobs/ListUnacceptedJobs/ListUnacceptedJobs.jsx";
 import ListAcceptedJobs from "./pages/Admin/ManageJobs/ListAcceptedJobs/ListAcceptedJobs.jsx";
+import ViewDetailJob from "./pages/ManageJobs/ListJob/ViewDetailJob.jsx";
 
 const router = createBrowserRouter([
     {
@@ -63,7 +64,7 @@ const router = createBrowserRouter([
             {
                 path: "list-public-job",
                 element: <ListAcceptedJobs />
-            }
+            },
         ]
     },
     {
@@ -85,6 +86,10 @@ const router = createBrowserRouter([
             {
                 path: "list-jobs",
                 element: <ListJob />
+            },
+            {
+                path: "job-detail/:id",
+                element: <ViewDetailJob />
             }
         ],
     },
