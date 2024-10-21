@@ -2,6 +2,7 @@ import React from "react";
 import { Result } from "antd";
 import { CrownOutlined } from "@ant-design/icons";
 import { useSelector } from "react-redux";
+import HomeCarousel from '../../layouts/Carousel/HomeCarousel';
 
 const HomePage = () => {
     const isAuthenticated = useSelector((state) => {

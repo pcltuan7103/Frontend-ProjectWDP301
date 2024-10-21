@@ -7,6 +7,14 @@ import {
   UserOutlined,
   FileAddOutlined,
   SettingOutlined,
+  UsergroupAddOutlined,
+  SolutionOutlined,
+  ContainerOutlined,
+  ApartmentOutlined,
+  ToolOutlined,
+  FileTextOutlined,
+  UnorderedListOutlined,
+  FileDoneOutlined,
   FileOutlined,
 } from "@ant-design/icons";
 import { Menu } from "antd";
@@ -19,6 +27,8 @@ const Header = () => {
   const [current, setCurrent] = useState("home");
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const logo = `/images/JobLink.png`;
 
   const onClick = (e) => {
     console.log("click ", e);
@@ -37,54 +47,105 @@ const Header = () => {
 
   const itemsLeft = [
     {
-      label: <Link to="/">Home Page</Link>,
+      label: <Link to="/">
+        <img src={logo} alt="JobLink" style={{ height: '30px' }} />
+      </Link>,
       key: "home",
-      icon: <HomeOutlined />,
+      // icon: <HomeOutlined />,
+    },
+    {
+      label: <Link to="/recruitments">Recruitments</Link>,
+      // key: "recruitments",
+      icon: <SolutionOutlined />,
+    },
+    isAuthenticated
+      ? {
+        label: <Link to="/cv_profile">Profile & CV</Link>,
+        key: "profile&cv",
+        icon: <ContainerOutlined />,
+      }
+      : {
+        label: <Link to="/login-user">Profile & CV</Link>,
+        key: "login-user",
+        icon: <ContainerOutlined />,
+      },
+    {
+      label: <Link to="/">Companies</Link>,
+      key: "companies",
+      icon: <ApartmentOutlined />,
+    },
+    {
+      label: <Link to="/">Tools</Link>,
+      key: "tools",
+      icon: <ToolOutlined />,
+    },
+    {
+      label: <Link to="/">Resources</Link>,
+      key: "resources",
+      icon: <FileTextOutlined />,
     },
   ];
 
   const itemsRight = [
     ...(isAuthenticated === false
       ? [
-          {
-            label: <Link to="/login-user">Sign In</Link>,
-            key: "login",
-            icon: <LoginOutlined />,
-          },
-          {
-            label: <Link to="/register-user">Sign Up</Link>,
-            key: "signup",
-            icon: <UserAddOutlined />,
-          },
-          {
-            label: <Link to="/homepostjob">Post Job and Recruit Resumes</Link>,
-            key: "employer",
-            icon: <FileAddOutlined />,
-          },
-        ]
+        {
+          label: <Link to="/login-user">Sign In</Link>,
+          key: "signin",
+          icon: <LoginOutlined />,
+        },
+        {
+          label: <Link to="/register-user">Sign Up</Link>,
+          key: "signup",
+          icon: <UserAddOutlined />,
+        },
+        {
+          label: <Link to="/recruitment-consulting">Recruitment Consulting</Link>,
+          key: "recruitment-consulting",
+          icon: <FileAddOutlined />,
+        },
+      ]
       : [
-          {
-            label: <span>Setting</span>,
-            key: "setting",
-            icon: <SettingOutlined />,
-            children: [
-              {
-                label: <span onClick={handleLogout}>Log Out</span>,
-                key: "logout",
-                icon: <LogoutOutlined />,
-              },
-              {
-                label: (
-                  <Link to={`/profile/${account.id}`}>
-                    Welcome {account.username}
-                  </Link>
-                ),
-                key: "account",
-                icon: <UserOutlined />,
-              },
-            ],
-          },
-        ]),
+        {
+          label: <span>Setting</span>,
+          key: "setting",
+          icon: <SettingOutlined />,
+          children: [
+            {
+              label: <span onClick={handleLogout}>Log Out</span>,
+              key: "logout",
+              icon: <LogoutOutlined />,
+            },
+            {
+              label: (
+                <Link to={`/applied-recruitments`}>
+                  Đơn đã ứng tuyển
+                </Link>
+              ),
+              key: 'applied-recruitments',
+              icon: <FileDoneOutlined />
+            },
+            {
+              label: (
+                <Link to={`/favorite`}>
+                  Tin tuyển dụng yêu thích
+                </Link>
+              ),
+              key: 'favorite',
+              icon: <UnorderedListOutlined />
+            },
+            {
+              label: (
+                <Link to={`/profile/${account.id}`}>
+                  Welcome {account.username}
+                </Link>
+              ),
+              key: "account",
+              icon: <UserOutlined />,
+            },
+          ],
+        },
+      ]),
   ];
 
   return (
