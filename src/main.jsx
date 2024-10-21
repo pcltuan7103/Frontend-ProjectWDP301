@@ -29,6 +29,11 @@ const ProtectedRoute = ({ children }) => {
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
   return isAuthenticated ? children : <Navigate to="/login-user" />;
 };
+import ManageCompany from "./pages/ManagerCompany/ManageCompany.jsx";
+import AddJob from "./pages/ManageJobs/AddJob/AddJob.jsx";
+import ListJob from "./pages/ManageJobs/ListJob/ListJob.jsx";
+import ListUnacceptedJobs from "./pages/Admin/ManageJobs/ListUnacceptedJobs/ListUnacceptedJobs.jsx";
+import ListAcceptedJobs from "./pages/Admin/ManageJobs/ListAcceptedJobs/ListAcceptedJobs.jsx";
 
 const router = createBrowserRouter([
   {
@@ -108,11 +113,11 @@ const router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <Provider store={store}>
-    <PersistGate loading={null} persistor={persistor}>
-      <React.StrictMode>
-        <RouterProvider router={router} />
-      </React.StrictMode>
-    </PersistGate>
-  </Provider>
+    <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+            <React.StrictMode>
+                <RouterProvider router={router} />
+            </React.StrictMode>
+        </PersistGate>
+    </Provider>
 );

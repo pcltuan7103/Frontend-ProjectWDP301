@@ -16,7 +16,7 @@ import {
 } from "@ant-design/icons";
 import { Menu } from "antd";
 import { Link, useNavigate } from "react-router-dom";
-import "./EmployerHeader.scss"; // Import the CSS file for styling
+import "./EmployerHeader.scss";
 
 const logo = `/images/JobLink.png`;
 
@@ -30,42 +30,15 @@ const EmployerHeader = () => {
 
   const itemsLeft = [
     {
-      label: <Link to="/">
-        <img src={logo} alt="JobLink" style={{height: '30px'}}/>
-      </Link>,
+      label: <Link to="/">Home Page</Link>,
       key: "home",
-      // icon: <HomeOutlined />,
-    },
-    {
-      label: <Link to="/">Recruitments</Link>,
-      // key: "recruitments",
-      icon: <SolutionOutlined />,
-    },
-    {
-      label: <Link to="/">Profile & CV</Link>,
-      key: "profile&cv",
-      icon: <ContainerOutlined />,
-    },
-    {
-      label: <Link to="/">Companies</Link>,
-      key: "companies",
-      icon: <ApartmentOutlined />,
-    },
-    {
-      label: <Link to="/">Tools</Link>,
-      key: "tools",
-      icon: <ToolOutlined />,
-    },
-    {
-      label: <Link to="/">Resources</Link>,
-      key: "resources",
-      icon: <FileTextOutlined />,
+      icon: <HomeOutlined />,
     },
   ];
 
   const itemsRight = [
     {
-      label: <Link to="/login-user">Sign In</Link>,
+      label: <Link to="/login-employer">Sign In</Link>,
       key: "login",
       icon: <LoginOutlined />,
     },
