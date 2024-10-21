@@ -17,7 +17,7 @@ const SideBarAdmin = () => {
         localStorage.removeItem("access_token");
         localStorage.removeItem("refresh_token");
         dispatch(doLogout());
-        navigate("/homepostjob");
+        navigate("/");
     };
 
     const items = [

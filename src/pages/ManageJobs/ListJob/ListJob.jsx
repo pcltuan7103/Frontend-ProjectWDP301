@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { getJobByEmployerId } from "../../../Api/api";
+import { deleteJob, getJobByEmployerId } from "../../../Api/api";
 import { useSelector } from "react-redux";
-import { Table } from "antd";
+import { Button, message, Table } from "antd";
 import "./ListJob.scss"
+import { useNavigate } from "react-router-dom";
 
 const ListJob = () => {
     const account = useSelector((state) => state.user.account);
     const [dataJob, setDataJob] = useState([]); // Ensure dataJob is an array
+    const navigate = useNavigate()
 
     useEffect(() => {
         fetchJob();
@@ -20,6 +22,19 @@ const ListJob = () => {
             console.error("Error fetching jobs:", error);
         }
     };
+
+    const handleViewDetail = (jobId) => {
+        navigate(`/postjob/job-detail/${jobId}`)
+    }
+
+    const handleDelete = async (jobId) => {
+        try{
+            await deleteJob(jobId);
+            message.success(`Delete Success`);
+        } catch(error) {
+            console.log(error)
+        }
+    }
 
     // Define the columns, including detailed_location and description
     const columns = [
@@ -49,6 +64,20 @@ const ListJob = () => {
             dataIndex: 'due_to',  // Job due date
             key: 'due_to',
             render: (due_to) => new Date(due_to).toLocaleDateString(), // Format the date
+        },
+        {
+            title: "Actions", // New column for actions
+            key: "action",
+            render: (text, record) => ( // 'text' is the text of the cell, 'record' is the entire row data
+                <>
+                    <Button type="primary" onClick={() => handleViewDetail(record.key)}>
+                        Edit
+                    </Button>
+                    <Button type="second" onClick={() => handleDelete(record.key)}>
+                        Delete
+                    </Button>
+                </>
+            ),
         },
     ];
 
