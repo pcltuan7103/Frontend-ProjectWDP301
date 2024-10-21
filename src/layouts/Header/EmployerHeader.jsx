@@ -4,10 +4,21 @@ import {
   LogoutOutlined,
   HomeOutlined,
   UserAddOutlined,
+  UserOutlined,
+  FileAddOutlined,
+  SettingOutlined,
+  UsergroupAddOutlined,
+  SolutionOutlined,
+  ContainerOutlined,
+  ApartmentOutlined,
+  ToolOutlined,
+  FileTextOutlined,
 } from "@ant-design/icons";
 import { Menu } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import "./EmployerHeader.scss"; // Import the CSS file for styling
+
+const logo = `/images/JobLink.png`;
 
 const EmployerHeader = () => {
   const [current, setCurrent] = useState("home");
@@ -19,9 +30,36 @@ const EmployerHeader = () => {
 
   const itemsLeft = [
     {
-      label: <Link to="/">Home Page</Link>,
+      label: <Link to="/">
+        <img src={logo} alt="JobLink" style={{height: '30px'}}/>
+      </Link>,
       key: "home",
-      icon: <HomeOutlined />,
+      // icon: <HomeOutlined />,
+    },
+    {
+      label: <Link to="/">Recruitments</Link>,
+      // key: "recruitments",
+      icon: <SolutionOutlined />,
+    },
+    {
+      label: <Link to="/">Profile & CV</Link>,
+      key: "profile&cv",
+      icon: <ContainerOutlined />,
+    },
+    {
+      label: <Link to="/">Companies</Link>,
+      key: "companies",
+      icon: <ApartmentOutlined />,
+    },
+    {
+      label: <Link to="/">Tools</Link>,
+      key: "tools",
+      icon: <ToolOutlined />,
+    },
+    {
+      label: <Link to="/">Resources</Link>,
+      key: "resources",
+      icon: <FileTextOutlined />,
     },
   ];
 

@@ -26,7 +26,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
           username: action?.payload?.user?.username,
           role: action?.payload?.user?.role?.name,
           email: action?.payload?.user?.email,
-          id: action?.payload?.user?._id,
+          id: action?.payload?.user?._id, // dcm m đây r userid
         },
         isAuthenticated: true,
       };
