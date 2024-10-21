@@ -34,13 +34,15 @@ const Favorite = () => {
     }, [userId]);
 
     const handleRemoveFavorite = async (favoriteId) => {
-        try {
-            console.log(favoriteId);
-            await axios.delete(`http://localhost:8080/v1/api/users/favorite/${favoriteId}`);
-            /////////////////////////////////////
-            setFavorites(favorites.filter(favorite => favorite._id !== favoriteId));
-        } catch (error) {
-            console.log(error);
+        const result = confirm(`Xóa ${favoriteId.jobId.title} khỏi danh sách yêu thích?`);
+        if (result === true) {
+            try {
+                console.log(favoriteId._id);
+                await axios.delete(`http://localhost:8080/v1/api/users/favorite/${favoriteId._id}`);
+                setFavorites(favorites.filter(favorite => favorite._id !== favoriteId._id));
+            } catch (error) {
+                console.log(error);
+            }
         }
     };
 
@@ -76,7 +78,7 @@ const Favorite = () => {
                         </div>
                         <div className="action-buttons">
                             <button
-                                onClick={() => handleRemoveFavorite(favorite._id)}
+                                onClick={() => handleRemoveFavorite(favorite)}
                                 className="remove-button"
                             >
                                 <DeleteOutlined className="delete-icon" />
