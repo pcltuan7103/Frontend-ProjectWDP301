@@ -2,6 +2,7 @@
   font-family: 'Arial', sans-serif;
   background-color: #f4f4f4;
   margin-top: 50px;
+  pointer-events: none;
   // padding: 20px;
 
   .recruitmentpage-container {
@@ -72,14 +73,16 @@
     }
 
     .job-stats {
-      text-align: center;
+      display: flex;
+      justify-content: center;
+      gap: 50px;
       margin-bottom: 30px;
       font-size: 1.3rem;
       color: #444;
+    }
 
-      strong {
-        color: #007bff;
-      }
+    .job-stats strong {
+      color: #66bc46;
     }
 
     .banner-section {
@@ -110,6 +113,7 @@
     margin: 0 auto;
     padding: 20px;
     font-family: Arial, sans-serif;
+    // pointer-events: none;
   }
 
   /* Job list title */
@@ -305,7 +309,7 @@
 
 .pagination button {
   margin: 0 5px;
-  padding: 10px 15px;
+  padding: 5px 10px;
   cursor: pointer;
   border-radius: 50%;
   border: ridge;
@@ -318,13 +322,14 @@
 
 .blurred-content {
   filter: blur(5px);
-  pointer-events: none;
+  pointer-events: auto;
   transition: filter 1.5s ease;
 }
 
 .blurred-content.visible {
   filter: blur(0);
-  pointer-events: auto;
+  // pointer-events: auto;
+  // pointer-events: none;
 }
 
 .spinner-overlay {

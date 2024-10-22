@@ -39,6 +39,7 @@ import ListJob from "./pages/ManageJobs/ListJob/ListJob.jsx";
 import ListUnacceptedJobs from "./pages/Admin/ManageJobs/ListUnacceptedJobs/ListUnacceptedJobs.jsx";
 import ListAcceptedJobs from "./pages/Admin/ManageJobs/ListAcceptedJobs/ListAcceptedJobs.jsx";
 import ViewDetailJob from "./pages/ManageJobs/ListJob/ViewDetailJob.jsx";
+import VideoCall from "./pages/VideoCall/VideoCall.jsx";
 import ListApplication from "./pages/ManageJobs/ListApplication/ListApplication.jsx";
 
 const router = createBrowserRouter([
@@ -98,6 +99,10 @@ const router = createBrowserRouter([
                 path: "/applied-recruitments",
                 element: <AppliedApplication />,
             },
+            {
+                path: '/interview',
+                element: <VideoCall />
+            }
         ],
     },
     {

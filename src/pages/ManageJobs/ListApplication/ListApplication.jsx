@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getApplicationByJob } from "../../../Api/api";
 import { Button, Table } from "antd";
-import "./ListApplication.scss"
+import "./ListApplication.scss";
 
 const ListApplication = () => {
-  const navigate = useNavigate()
+    const navigate = useNavigate();
     const { id } = useParams();
     const [dataApplication, setDataApplication] = useState([]);
 
@@ -13,12 +13,12 @@ const ListApplication = () => {
         fetchApplication();
     }, []);
 
+    console.log(dataApplication);
+
     const fetchApplication = async () => {
         const res = await getApplicationByJob(id);
         setDataApplication(res.applications);
     };
-
-    console.log(dataApplication);
 
     const handleDownloadCv = (cvBuffer, fileName) => {
         const blob = new Blob([new Uint8Array(cvBuffer)], {
@@ -32,14 +32,19 @@ const ListApplication = () => {
 
     const columns = [
         {
+            title: "Application ID",
+            dataIndex: "_id", // Field to show application ID
+            key: "_id",
+        },
+        {
             title: "Job ID",
             dataIndex: "jobId", // Field to show job ID
             key: "jobId",
         },
         {
-            title: "Application ID",
-            dataIndex: "_id", // Field to show application ID
-            key: "_id",
+            title: "User ID",
+            dataIndex: "userId", // Field to show job ID
+            key: "userId",
         },
         {
             title: "CV File Name",
@@ -67,11 +72,17 @@ const ListApplication = () => {
         jobId: application.jobId, // Job ID
         _id: application._id, // Application ID
         cv: application.cv, // CV Buffer
+        userId: application.userId, 
     }));
 
     return (
         <div className="list-applications">
-            <div className="back" onClick={()=>navigate("/postjob/list-jobs")}>Back</div>
+            <div
+                className="back"
+                onClick={() => navigate("/postjob/list-jobs")}
+            >
+                Back
+            </div>
             <div className="title">List of Applications</div>
             <Table columns={columns} dataSource={data} />
         </div>

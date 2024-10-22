@@ -15,6 +15,8 @@ import {
   FileTextOutlined,
   UnorderedListOutlined,
   FileDoneOutlined,
+  FileOutlined,
+  ContactsOutlined
 } from "@ant-design/icons";
 import { Menu } from "antd";
 import { Link, useNavigate } from "react-router-dom";
@@ -72,6 +74,11 @@ const Header = () => {
       label: <Link to="/">Companies</Link>,
       key: "companies",
       icon: <ApartmentOutlined />,
+    },
+    {
+      label: <Link to='interview'>Interview</Link>,
+      key: 'interview',
+      icon: <ContactsOutlined />,
     },
     {
       label: <Link to="/">Tools</Link>,
