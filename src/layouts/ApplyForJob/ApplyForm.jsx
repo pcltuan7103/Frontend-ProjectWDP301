@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import './ApplyForm.scss';
 import { CloseOutlined, ImportOutlined, UploadOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 
 const ApplyForm = ({ onClose, jobTitle, jobId }) => {
     const [introduction, setIntroduction] = useState('');
     const [cvFile, setCvFile] = useState(null);
+    const userId = useSelector((state) => state.user.account.id);
 
     const adjustHeight = (textarea) => {
         textarea.style.height = 'auto';
@@ -36,9 +38,11 @@ const ApplyForm = ({ onClose, jobTitle, jobId }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log('UserId before send to API: ', userId);
 
         const formData = new FormData();
         formData.append('introduction', introduction);
+        formData.append('userId', userId);
         if (cvFile) {
             formData.append('cv', cvFile);
         }

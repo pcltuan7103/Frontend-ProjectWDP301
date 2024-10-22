@@ -26,6 +26,10 @@ const RecruitmentPage = () => {
         city: 'All provinces/cities',
         category: 'All professions'
     });
+    const [jobStats, setJobStats] = useState({
+        positions: 0,
+        updateAt: '',
+    });
     const navigate = useNavigate();
 
     const jobsPerPage = 12;
@@ -92,7 +96,7 @@ const RecruitmentPage = () => {
         }
     };
 
-    const getAllRecruitments = async() => {
+    const getAllRecruitments = async () => {
         axios.get('http://localhost:8080/job-company')
             .then(response => {
                 setJobListings(response.data);
@@ -248,6 +252,33 @@ const RecruitmentPage = () => {
         return () => clearTimeout(timer);
     }, []);
 
+    // Hàm gọi API để lấy dữ liệu từ backend
+    const fetchJobStats = async () => {
+        try {
+            const response = await axios.get('http://localhost:8080/v1/api/users/job-stats');
+            setJobStats(response.data);
+        } catch (error) {
+            console.error('Error fetching job stats:', error);
+        }
+    };
+
+    const formatDate = (dateString) => {
+        const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+        return new Date(dateString).toLocaleDateString(undefined, options);
+    };
+
+    useEffect(() => {
+        fetchJobStats();
+    }, []);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            fetchJobStats();
+        }, 300000); // 5 phút = 300000ms
+
+        return () => clearInterval(interval);
+    }, []);
+
     return (
         <div className="all">
             <div className={`blurred-content ${loading ? '' : 'visible'}`}>
@@ -283,9 +314,8 @@ const RecruitmentPage = () => {
 
                     {/*Job stats */}
                     <div className="job-stats">
-                        <span>Positions waiting for you to discover: <strong>database</strong></span>
-                        <span>Latest jobs: <strong>database</strong></span>
-                        <span>Updated at: <strong>database</strong></span>
+                        <span>Positions waiting for you to discover: <strong>{jobStats.positions}</strong></span>
+                        <span id="update-time">Updated at: <strong>{formatDate(jobStats.updatedAt)}</strong></span>
                     </div>
 
                     {/* Banner section */}
