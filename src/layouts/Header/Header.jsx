@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   LoginOutlined,
   LogoutOutlined,
@@ -7,7 +7,6 @@ import {
   UserOutlined,
   FileAddOutlined,
   SettingOutlined,
-  UsergroupAddOutlined,
   SolutionOutlined,
   ContainerOutlined,
   ApartmentOutlined,
@@ -15,19 +14,22 @@ import {
   FileTextOutlined,
   UnorderedListOutlined,
   FileDoneOutlined,
-  FileOutlined,
-  ContactsOutlined
+  ContactsOutlined,
 } from "@ant-design/icons";
-import { Menu } from "antd";
+import { Menu, Badge } from "antd"; // Import Badge for notification count
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { doLogout } from "../../redux/action/userAction";
-import "./Header.scss"; // Import the CSS file for styling
+import { getNoficationByUser, updateNotificationStatus } from "../../Api/api";
+import "./Header.scss";
+import NotificationModal from "../../components/Modal/NoficationModal";
 
 const Header = () => {
   const [current, setCurrent] = useState("home");
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [dataNotification, setDataNotification] = useState([]);
+  const [isModalVisible, setIsModalVisible] = useState(false); // Modal visibility state
 
   const logo = `/images/JobLink.png`;
 
@@ -42,34 +44,58 @@ const Header = () => {
   const handleLogout = () => {
     localStorage.removeItem("access_token");
     localStorage.removeItem("refresh_token");
-    dispatch(doLogout()); // Dispatch logout action to update Redux state
+    dispatch(doLogout());
     navigate("/");
   };
 
+  useEffect(() => {
+    fetchNotification();
+  }, []); // Fetch notifications when user ID changes
+
+  const fetchNotification = async () => {
+    try {
+      const res = await getNoficationByUser(account.id);
+      setDataNotification(res);
+    } catch (error) {
+      console.error("Error fetching notifications:", error);
+    }
+  };
+
+  console.log(dataNotification)
+
+  const handleNotificationClick = async () => {
+    setIsModalVisible(true);
+    // Update notification status to read
+    await updateNotificationStatus(account.id); // Ensure this is implemented in your API
+    fetchNotification(); // Fetch notifications again to reflect changes
+  };
+
+  const closeModal = () => {
+    setIsModalVisible(false);
+  };
+
+  const unreadCount = dataNotification.filter(notification => !notification.isRead).length; // Count unread notifications
+
   const itemsLeft = [
     {
-      label: <Link to="/">
-        <img src={logo} alt="JobLink" style={{ height: '30px' }} />
-      </Link>,
+      label: <Link to="/"><img src={logo} alt="JobLink" style={{ height: '30px' }} /></Link>,
       key: "home",
-      // icon: <HomeOutlined />,
     },
     {
       label: <Link to="/recruitments">Recruitments</Link>,
-      // key: "recruitments",
       icon: <SolutionOutlined />,
     },
     isAuthenticated
       ? {
-        label: <Link to="/cv_profile">Profile & CV</Link>,
-        key: "profile&cv",
-        icon: <ContainerOutlined />,
-      }
+          label: <Link to="/cv_profile">Profile & CV</Link>,
+          key: "profile&cv",
+          icon: <ContainerOutlined />,
+        }
       : {
-        label: <Link to="/login-user">Profile & CV</Link>,
-        key: "login-user",
-        icon: <ContainerOutlined />,
-      },
+          label: <Link to="/login-user">Profile & CV</Link>,
+          key: "login-user",
+          icon: <ContainerOutlined />,
+        },
     {
       label: <Link to="/">Companies</Link>,
       key: "companies",
@@ -95,68 +121,74 @@ const Header = () => {
   const itemsRight = [
     ...(isAuthenticated === false
       ? [
-        {
-          label: <Link to="/login-user">Sign In</Link>,
-          key: "signin",
-          icon: <LoginOutlined />,
-        },
-        {
-          label: <Link to="/register-user">Sign Up</Link>,
-          key: "signup",
-          icon: <UserAddOutlined />,
-        },
-        {
-          label: <Link to="/recruitment-consulting">Recruitment Consulting</Link>,
-          key: "recruitment-consulting",
-          icon: <FileAddOutlined />,
-        },
-        {
-          label: <Link to="/login-employer">Employer</Link>,
-          key: "login-employer",
-          icon: <FileAddOutlined />,
-        },
-      ]
+          {
+            label: <Link to="/login-user">Sign In</Link>,
+            key: "signin",
+            icon: <LoginOutlined />,
+          },
+          {
+            label: <Link to="/register-user">Sign Up</Link>,
+            key: "signup",
+            icon: <UserAddOutlined />,
+          },
+          {
+            label: <Link to="/recruitment-consulting">Recruitment Consulting</Link>,
+            key: "recruitment-consulting",
+            icon: <FileAddOutlined />,
+          },
+          {
+            label: <Link to="/login-employer">Employer</Link>,
+            key: "login-employer",
+            icon: <FileAddOutlined />,
+          },
+        ]
       : [
-        {
-          label: <span>Setting</span>,
-          key: "setting",
-          icon: <SettingOutlined />,
-          children: [
-            {
-              label: <span onClick={handleLogout}>Log Out</span>,
-              key: "logout",
-              icon: <LogoutOutlined />,
-            },
-            {
-              label: (
-                <Link to={`/applied-recruitments`}>
-                  Đơn đã ứng tuyển
-                </Link>
-              ),
-              key: 'applied-recruitments',
-              icon: <FileDoneOutlined />
-            },
-            {
-              label: (
-                <Link to={`/favorite`}>
-                  Tin tuyển dụng yêu thích
-                </Link>
-              ),
-              key: 'favorite',
-              icon: <UnorderedListOutlined />
-            },
-            {
-              label: (
-                <Link to={`/profile/${account.id}`}>
-                  Welcome {account.username}
-                </Link>
-              ),
-              key: "account",
-              icon: <UserOutlined />,
-            },
-          ],
-        },
-      ]),
+          {
+            label: <span>Setting</span>,
+            key: "setting",
+            icon: <SettingOutlined />,
+            children: [
+              {
+                label: <span onClick={handleLogout}>Log Out</span>,
+                key: "logout",
+                icon: <LogoutOutlined />,
+              },
+              {
+                label: (
+                  <Link to={`/applied-recruitments`}>Đơn đã ứng tuyển</Link>
+                ),
+                key: 'applied-recruitments',
+                icon: <FileDoneOutlined />
+              },
+              {
+                label: (
+                  <Link to={`/favorite`}>Tin tuyển dụng yêu thích</Link>
+                ),
+                key: 'favorite',
+                icon: <UnorderedListOutlined />
+              },
+              {
+                label: (
+                  <Link to={`/profile/${account.id}`}>
+                    Welcome {account.username}
+                  </Link>
+                ),
+                key: "account",
+                icon: <UserOutlined />,
+              },
+            ],
+          },
+          {
+            label: (
+              <span onClick={handleNotificationClick}>
+                <Badge count={unreadCount} overflowCount={99}>
+                  Nofication
+                </Badge>
+              </span>
+            ),
+            key: 'notification'
+          }
+        ]),
   ];
 
   return (
@@ -174,6 +206,11 @@ const Header = () => {
         mode="horizontal"
         items={itemsRight}
         className="menu-right"
+      />
+      <NotificationModal
+        open={isModalVisible}
+        onClose={closeModal}
+        notifications={dataNotification}
       />
     </div>
   );

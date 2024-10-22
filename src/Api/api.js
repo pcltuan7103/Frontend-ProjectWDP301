@@ -34,48 +34,66 @@ const createCompany = (companyData) => {
 };
 
 const createJob = (jobData) => {
-    const URL_API = "job/create"
-    return axios.post(URL_API, jobData)
-}
+    const URL_API = "job/create";
+    return axios.post(URL_API, jobData);
+};
 
 const getJobByEmployerId = (employerId) => {
-    const URL_API = `/jobs/employer/${employerId}`
-    return axios.get(URL_API) 
-}
+    const URL_API = `/jobs/employer/${employerId}`;
+    return axios.get(URL_API);
+};
 
 const getUnacceptedJob = () => {
-    const URL_API = "jobs/no-public"
-    return axios.get(URL_API)
-}
+    const URL_API = "jobs/no-public";
+    return axios.get(URL_API);
+};
 
 const getAcceptedJob = () => {
-    const URL_API = "jobs/public"
-    return axios.get(URL_API)
-}
+    const URL_API = "jobs/public";
+    return axios.get(URL_API);
+};
 
 const acceptJob = (jobId) => {
-    const URL_API = `accept-job/${jobId}`
-    return axios.put(URL_API)
-}
+    const URL_API = `accept-job/${jobId}`;
+    return axios.put(URL_API);
+};
 
 const getJobById = (jobId) => {
-    const URL_API = `job/${jobId}`
-    return axios.get(URL_API)
-}
+    const URL_API = `job/${jobId}`;
+    return axios.get(URL_API);
+};
 
 const updateJob = (jobId, values) => {
-    const URL_API = `job/${jobId}`
-    return axios.put(URL_API, values)
-}
+    const URL_API = `job/${jobId}`;
+    return axios.put(URL_API, values);
+};
 
 const deleteJob = (jobId) => {
-    const URL_API = `Job/${jobId}`
-    return axios.delete(URL_API)
-}
+    const URL_API = `Job/${jobId}`;
+    return axios.delete(URL_API);
+};
 
 const getApplicationByJob = (jobId) => {
-    const URL_API = `/applications/job/${jobId}`
-    return axios.get(URL_API)
+    const URL_API = `/applications/job/${jobId}`;
+    return axios.get(URL_API);
+};
+
+const acceptApplication = async (applicationId, data) => {
+    return await axios.post(`/application/${applicationId}/accept`, data);
+};
+
+const rejectApplication = async (applicationId, data) => {
+    return await axios.post(`/application/${applicationId}/reject`, data);
+};
+
+const getNoficationByUser = (userId) => {
+    const URL_API = `/v1/api/users/nofication/${userId}`;
+    return axios.get(URL_API);
+}
+
+const updateNotificationStatus = (userId) => {
+    const URL_API = `/v1/api/users/read/${userId}`;
+    return axios.post(URL_API)
 }
 
 export {
@@ -93,5 +111,9 @@ export {
     getJobById,
     updateJob,
     deleteJob,
-    getApplicationByJob
+    getApplicationByJob,
+    acceptApplication,
+    rejectApplication,
+    getNoficationByUser,
+    updateNotificationStatus
 };
