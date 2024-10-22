@@ -2,73 +2,76 @@ import React, { useEffect, useState } from "react";
 import { deleteJob, getJobByEmployerId } from "../../../Api/api";
 import { useSelector } from "react-redux";
 import { Button, message, Table } from "antd";
-import "./ListJob.scss"
+import "./ListJob.scss";
 import { useNavigate } from "react-router-dom";
 
 const ListJob = () => {
     const account = useSelector((state) => state.user.account);
-    const [dataJob, setDataJob] = useState([]); // Ensure dataJob is an array
-    const navigate = useNavigate()
+    const [publicJobs, setPublicJobs] = useState([]);   // Jobs where isPublic is true
+    const [privateJobs, setPrivateJobs] = useState([]); // Jobs where isPublic is false
+    const navigate = useNavigate();
 
     useEffect(() => {
-        fetchJob();
+        fetchJobs();
     }, []);
 
-    const fetchJob = async () => {
+    const fetchJobs = async () => {
         try {
             const res = await getJobByEmployerId(account.id);
-            setDataJob(res); // Assuming res is an array of job objects
+            const publicJobs = res.filter((job) => job.isPublic); // Jobs with isPublic true
+            const privateJobs = res.filter((job) => !job.isPublic); // Jobs with isPublic false
+            setPublicJobs(publicJobs);
+            setPrivateJobs(privateJobs);
         } catch (error) {
             console.error("Error fetching jobs:", error);
         }
     };
 
     const handleViewDetail = (jobId) => {
-        navigate(`/postjob/job-detail/${jobId}`)
-    }
+        navigate(`/postjob/job-detail/${jobId}`);
+    };
 
     const handleDelete = async (jobId) => {
-        try{
+        try {
             await deleteJob(jobId);
-            message.success(`Delete Success`);
-        } catch(error) {
-            console.log(error)
+            message.success("Delete Success");
+            fetchJobs(); // Refresh job list after deletion
+        } catch (error) {
+            console.log(error);
         }
+    };
+
+    const handleListApplication = async (jobId) => {
+        navigate(`/postjob/list-application/${jobId}`)
     }
 
-    // Define the columns, including detailed_location and description
+    // Define common columns for both tables
     const columns = [
         {
             title: 'Title',
-            dataIndex: 'title',  // Job title
+            dataIndex: 'title',
             key: 'title',
         },
         {
             title: 'Description',
-            dataIndex: 'description',  // Job description
+            dataIndex: 'description',
             key: 'description',
         },
         {
             title: 'Detailed Location',
-            dataIndex: 'detailed_location',  // Detailed job location
+            dataIndex: 'detailed_location',
             key: 'detailed_location',
         },
         {
-            title: 'Is Public',
-            dataIndex: 'isPublic',  // Job visibility status
-            key: 'isPublic',
-            render: (isPublic) => (isPublic ? 'Public' : 'Private'),  // Format boolean value
-        },
-        {
             title: 'Due Date',
-            dataIndex: 'due_to',  // Job due date
+            dataIndex: 'due_to',
             key: 'due_to',
-            render: (due_to) => new Date(due_to).toLocaleDateString(), // Format the date
+            render: (due_to) => new Date(due_to).toLocaleDateString(),
         },
         {
-            title: "Actions", // New column for actions
+            title: "Actions",
             key: "action",
-            render: (text, record) => ( // 'text' is the text of the cell, 'record' is the entire row data
+            render: (text, record) => (
                 <>
                     <Button type="primary" onClick={() => handleViewDetail(record.key)}>
                         Edit
@@ -81,20 +84,44 @@ const ListJob = () => {
         },
     ];
 
-    // Map job data to the dataSource format for the table
-    const data = dataJob.map((job) => ({
-        key: job._id, // Unique key for each job
-        title: job.title, // Job title
-        description: job.description, // Job description
-        detailed_location: job.detailed_location, // Job detailed location
-        isPublic: job.isPublic, // Public status
-        due_to: job.due_to, // Due date
+    // Columns for public jobs (with Applications button)
+    const publicColumns = [
+        ...columns,
+        {
+            title: "Applications",
+            key: "applications",
+            render: (text, record) => (
+                <Button type="primary" onClick={() => handleListApplication(record.key)}>
+                    View Applications
+                </Button>
+            ),
+        },
+    ];
+
+    // Map public and private job data to the dataSource format for their respective tables
+    const publicData = publicJobs.map((job) => ({
+        key: job._id,
+        title: job.title,
+        description: job.description,
+        detailed_location: job.detailed_location,
+        due_to: job.due_to,
+    }));
+
+    const privateData = privateJobs.map((job) => ({
+        key: job._id,
+        title: job.title,
+        description: job.description,
+        detailed_location: job.detailed_location,
+        due_to: job.due_to,
     }));
 
     return (
         <div className="list-jobs-company">
-            <div className="title">List Jobs</div>
-            <Table columns={columns} dataSource={data} />
+            <div className="title">Public Jobs</div>
+            <Table columns={publicColumns} dataSource={publicData} />
+
+            <div className="title">Private Jobs</div>
+            <Table columns={columns} dataSource={privateData} />
         </div>
     );
 };

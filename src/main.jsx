@@ -39,6 +39,7 @@ import ListJob from "./pages/ManageJobs/ListJob/ListJob.jsx";
 import ListUnacceptedJobs from "./pages/Admin/ManageJobs/ListUnacceptedJobs/ListUnacceptedJobs.jsx";
 import ListAcceptedJobs from "./pages/Admin/ManageJobs/ListAcceptedJobs/ListAcceptedJobs.jsx";
 import ViewDetailJob from "./pages/ManageJobs/ListJob/ViewDetailJob.jsx";
+import ListApplication from "./pages/ManageJobs/ListApplication/ListApplication.jsx";
 
 const router = createBrowserRouter([
     {
@@ -145,6 +146,10 @@ const router = createBrowserRouter([
                 path: "job-detail/:id",
                 element: <ViewDetailJob />,
             },
+            {
+                path: "list-application/:id",
+                element: <ListApplication />
+            }
         ],
     },
 ]);
