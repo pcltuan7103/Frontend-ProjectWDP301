@@ -81,6 +81,10 @@ const LoginUser = () => {
                             </Form.Item>
 
                             <Form.Item>
+                                <Link to="/forgot-password-employer">Forgot password</Link>
+                            </Form.Item>
+
+                            <Form.Item>
                                 <Button type="primary" htmlType="submit">
                                     Submit
                                 </Button>

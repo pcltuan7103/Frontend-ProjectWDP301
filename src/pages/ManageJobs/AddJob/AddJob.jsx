@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { createJob, getCompany } from "../../../Api/api";
 import { useSelector } from "react-redux";
 import "./AddJob.scss"
+import { notification } from "antd";
 
 const AddJob = () => {
     const account = useSelector((state) => state.user.account);
@@ -78,6 +79,10 @@ const AddJob = () => {
                 companyId: dataCompany._id, // Set the companyId again after creation
                 employerId: account.id,
             });
+            notification.success({              
+                message: "CREATE JOB",
+                description: "Company created successfully!",
+            })
             // Optionally add a success message or redirect
         } catch (error) {
             console.error("Error creating job:", error);

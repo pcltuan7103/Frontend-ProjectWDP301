@@ -1,7 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { createCompany, getCompany } from "../../Api/api";
+import {
+    Form,
+    Input,
+    Button,
+    Upload,
+    message,
+    Typography,
+    Row,
+    Col,
+    Card,
+} from "antd";
+import { UploadOutlined } from "@ant-design/icons";
 import "./ManageCompany.scss";
+
+const { Title } = Typography;
 
 const ManageCompany = () => {
     const account = useSelector((state) => state.user.account);
@@ -28,164 +42,132 @@ const ManageCompany = () => {
         });
     };
 
-    const handleFileChange = (e) => {
-        setLogo(e.target.files[0]);
+    const handleFileChange = (info) => {
+        if (info.fileList.length > 0) {
+            setLogo(info.fileList[0]); // Store the first file from the uploaded files
+        }
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-    
+    const handleSubmit = async (values) => {
         const data = new FormData();
-        data.append("name", formData.name);
-        data.append("number_of_employee", formData.number_of_employee);
-        data.append("location", formData.location);
-        data.append("introduction", formData.introduction);
-        data.append("isPublic", formData.isPublic);
+        data.append("name", values.name);
+        data.append("number_of_employee", values.number_of_employee);
+        data.append("location", values.location);
+        data.append("introduction", values.introduction);
+        data.append("website", values.website);
+        data.append("isPublic", false);
         data.append("employer", formData.employer);
-        if (logo) data.append("logo", logo);
-    
+
+        // Check if logo is defined before appending it
+        if (logo) data.append("logo", logo.originFileObj); // Use originFileObj for the actual file
+
         try {
             await createCompany(data);
+            message.success("Company created successfully!");
+            fetchCompany();
         } catch (err) {
+            message.error("Failed to create company.");
         }
-      };
+    };
 
     useEffect(() => {
-        fecthCompany();
+        fetchCompany();
     }, []);
 
-    const fecthCompany = async () => {
+    const fetchCompany = async () => {
         const res = await getCompany(account.id);
         setDataCompany(res);
     };
 
+    console.log(dataCompany);
+
     if (dataCompany.message === "Company not found") {
         return (
             <div className="create-company-container">
-                <div className="title">Create Company</div>
-                <form onSubmit={handleSubmit}>
-                    <div>
-                        <label>Company Name</label>
-                        <input
-                            type="text"
-                            name="name"
-                            value={name}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-
-                    <div>
-                        <label>Staff Number</label>
-                        <input
+                <Title level={2}>Create Company</Title>
+                <Form layout="vertical" onFinish={handleSubmit}>
+                    <Form.Item label="Company Name" name="name" required>
+                        <Input value={name} onChange={handleChange} />
+                    </Form.Item>
+                    <Form.Item
+                        label="Staff Number"
+                        name="number_of_employee"
+                        required
+                    >
+                        <Input
                             type="number"
-                            name="number_of_employee"
                             value={number_of_employee}
                             onChange={handleChange}
-                            required
                         />
-                    </div>
-
-                    <div>
-                        <label>Link Website</label>
-                        <input
-                            type="text"
-                            name="website"
-                            value={website}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-
-                    <div>
-                        <label>Address</label>
-                        <input
-                            type="text"
-                            name="location"
-                            value={location}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-
-                    <div>
-                        <label>Description</label>
-                        <textarea
-                            name="introduction"
+                    </Form.Item>
+                    <Form.Item label="Link Website" name="website" required>
+                        <Input value={website} onChange={handleChange} />
+                    </Form.Item>
+                    <Form.Item label="Address" name="location" required>
+                        <Input value={location} onChange={handleChange} />
+                    </Form.Item>
+                    <Form.Item label="Description" name="introduction" required>
+                        <Input.TextArea
                             value={introduction}
                             onChange={handleChange}
-                            required
-                        ></textarea>
-                    </div>
-
-                    <div>
-                        <label>Logo URL</label>
-                        <input
-                            type="file"
-                            name="logo"
-                            accept="image/*"
-                            onChange={handleFileChange}
-                            required
                         />
-                    </div>
-
-                    <button type="submit">Create Company</button>
-                </form>
+                    </Form.Item>
+                    <Form.Item label="Logo">
+                        <Upload
+                            beforeUpload={() => false} // Prevent automatic upload
+                            onChange={handleFileChange} // Handle file change
+                            accept="image/*"
+                        >
+                            <Button icon={<UploadOutlined />}>
+                                Upload Logo
+                            </Button>
+                        </Upload>
+                    </Form.Item>
+                    <Form.Item>
+                        <Button type="primary" htmlType="submit">
+                            Create Company
+                        </Button>
+                    </Form.Item>
+                </Form>
             </div>
         );
     }
 
     return (
         <div className="company-info-container">
-            <div className="title">Company Information</div>
-            <div className="form">
-                <div className="form-field">
-                    <label className="form-label">Name</label>
-                    <input
-                        type="text"
-                        className="form-input"
-                        value={dataCompany.name}
-                        disabled
-                    />
-                </div>
-                <div className="form-field">
-                    <label className="form-label">Description</label>
-                    <textarea
-                        type="text"
-                        className="form-input"
-                        value={dataCompany.introduction}
-                        rows={3}
-                        disabled
-                    />
-                </div>
-                <div className="form-field">
-                    <label className="form-label">Address</label>
-                    <input
-                        type="text"
-                        className="form-input"
-                        value={dataCompany.location}
-                        disabled
-                    />
-                </div>
-                <div className="form-field">
-                    <label className="form-label">Number of Employee</label>
-                    <input
-                        type="text"
-                        className="form-input"
-                        value={dataCompany.number_of_employee}
-                        disabled
-                    />
-                </div>
-                <div className="form-field">
-                    <label className="form-label">Link Website</label>
-                    <input
-                        type="text"
-                        className="form-input"
-                        value={dataCompany.website}
-                        disabled
-                    />
-                </div>
-            </div>
+            <Row justify={"center"} style={{ marginTop: "30px", width: "1000px" }}>
+                <Col xs={24} md={16} lg={12}>
+                    <Card
+                        title={<Title level={2}>Company Information</Title>}
+                        bordered
+                    >
+                        <Form layout="vertical">
+                            <Form.Item label="Name">
+                                <Input value={dataCompany.name} disabled />
+                            </Form.Item>
+                            <Form.Item label="Description">
+                                <Input.TextArea
+                                    value={dataCompany.introduction}
+                                    rows={3}
+                                    disabled
+                                />
+                            </Form.Item>
+                            <Form.Item label="Address">
+                                <Input value={dataCompany.location} disabled />
+                            </Form.Item>
+                            <Form.Item label="Number of Employees">
+                                <Input
+                                    value={dataCompany.number_of_employee}
+                                    disabled
+                                />
+                            </Form.Item>
+                            <Form.Item label="Link Website">
+                                <Input value={dataCompany.website} disabled />
+                            </Form.Item>
+                        </Form>
+                    </Card>
+                </Col>
+            </Row>
         </div>
     );
 };

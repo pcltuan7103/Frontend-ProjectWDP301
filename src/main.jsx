@@ -43,6 +43,11 @@ import VideoCall from "./pages/VideoCall/VideoCall.jsx";
 import ListApplication from "./pages/ManageJobs/ListApplication/ListApplication.jsx";
 import VerifyOtpUser from "./pages/VerifyOtp/VerifyOtpUserPage.jsx";
 import VerifyOtpEmployer from "./pages/VerifyOtp/VerifyOtpEmployerPage.jsx";
+import ForgotPasswordPage from "./pages/ResetPassword/ForgotPasswordPage.jsx";
+import VerifyOtpForgotPage from "./pages/VerifyOtp/VerifyOtpForgotPasswordPage.jsx";
+import ForgotPasswordEmployerPage from "./pages/ResetPassword/ForgotPasswordEmployerPage.jsx";
+import VerifyOtpForgotEmployerPage from "./pages/VerifyOtp/VerifyOtpForgotPasswordEmployerPage.jsx";
+import DashBoardEmployer from "./pages/PostJob/DashBoardEmployer.jsx";
 
 const router = createBrowserRouter([
     {
@@ -116,6 +121,22 @@ const router = createBrowserRouter([
         element: <RegisterEmployer />,
     },
     {
+        path: "forgot-password",
+        element: <ForgotPasswordPage />
+    },
+    {
+        path: "verify-otp-forgot",
+        element: <VerifyOtpForgotPage />
+    },
+    {
+        path: "forgot-password-employer",
+        element: <ForgotPasswordEmployerPage />
+    },
+    {
+        path: "verify-otp-forgot-employer",
+        element: <VerifyOtpForgotEmployerPage />
+    },
+    {
         path: "verify-otp-employer",
         element: <VerifyOtpEmployer />
     },
@@ -145,6 +166,10 @@ const router = createBrowserRouter([
         path: "postjob",
         element: <PostJob />,
         children: [
+            {
+                index: true,
+                element: <DashBoardEmployer />
+            },
             {
                 path: "manage-company",
                 element: <ManageCompany />,

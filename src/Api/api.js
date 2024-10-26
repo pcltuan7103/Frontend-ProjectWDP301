@@ -132,6 +132,18 @@ const updateNotificationStatus = (userId) => {
     return axios.post(URL_API);
 };
 
+const sendOtpForForgotPassword = async (email) => {
+    const URL_API = "/v1/api/send-otp-forgot";
+    const data = { email };
+    return await axios.post(URL_API, data);
+};
+
+const forgotPassword = async (email, otp, newPassword) => {
+    const URL_API = "/v1/api/forgot-password";
+    const data = { email, otp, newPassword };
+    return await axios.post(URL_API, data);
+};
+
 export {
     registerUser,
     registerEmployer,
@@ -154,4 +166,6 @@ export {
     rejectApplication,
     getNoficationByUser,
     updateNotificationStatus,
+    sendOtpForForgotPassword,
+    forgotPassword
 };

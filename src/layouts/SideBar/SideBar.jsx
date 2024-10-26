@@ -22,6 +22,10 @@ const SideBar = () => {
 
     const items = [
         {
+            key: "dashboard",
+            label: <Link to="/postjob">Dash Board</Link>
+        },
+        {
             key: "sub1",
             label: "Manage Jobs",
             icon: <MailOutlined />,
