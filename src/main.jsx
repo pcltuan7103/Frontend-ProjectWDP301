@@ -43,11 +43,13 @@ import VideoCall from "./pages/VideoCall/VideoCall.jsx";
 import ListApplication from "./pages/ManageJobs/ListApplication/ListApplication.jsx";
 import VerifyOtpUser from "./pages/VerifyOtp/VerifyOtpUserPage.jsx";
 import VerifyOtpEmployer from "./pages/VerifyOtp/VerifyOtpEmployerPage.jsx";
-import ForgotPasswordPage from "./pages/ResetPassword/ForgotPasswordPage.jsx";
+import ForgotPasswordPage from "./pages/ForgotPassword/ForgotPasswordPage.jsx";
 import VerifyOtpForgotPage from "./pages/VerifyOtp/VerifyOtpForgotPasswordPage.jsx";
-import ForgotPasswordEmployerPage from "./pages/ResetPassword/ForgotPasswordEmployerPage.jsx";
+import ForgotPasswordEmployerPage from "./pages/ForgotPassword/ForgotPasswordEmployerPage.jsx";
 import VerifyOtpForgotEmployerPage from "./pages/VerifyOtp/VerifyOtpForgotPasswordEmployerPage.jsx";
 import DashBoardEmployer from "./pages/PostJob/DashBoardEmployer.jsx";
+import ResetPasswordUserPage from "./pages/ResetPassword/ResetPasswordUserPage.jsx";
+import VerifyResetPasswordUserPage from "./pages/VerifyOtp/VerifyResetPasswordUserPage.jsx";
 
 const router = createBrowserRouter([
     {
@@ -77,6 +79,22 @@ const router = createBrowserRouter([
                         <CVTemplate />
                     </ProtectedRoute>
                 ),
+            },
+            {
+                path: "/reset-password-user",
+                element: (
+                    <ProtectedRoute>
+                        <ResetPasswordUserPage />
+                    </ProtectedRoute>
+                )
+            },
+            {
+                path: "/verify-reset-password-user",
+                element: (
+                    <ProtectedRoute>
+                        <VerifyResetPasswordUserPage />
+                    </ProtectedRoute>
+                )
             },
             {
                 path: "recruitment-consulting",

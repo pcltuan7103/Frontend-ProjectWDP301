@@ -193,6 +193,15 @@ const Header = () => {
                               key: "account",
                               icon: <UserOutlined />,
                           },
+                          {
+                            label: (
+                                <Link to={`/reset-password-user`}>
+                                    Change Password
+                                </Link>
+                            ),
+                            key: "reset-password-user",
+                            icon: <FileDoneOutlined />,
+                        },
                       ],
                   },
                   {

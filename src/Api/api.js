@@ -138,6 +138,12 @@ const sendOtpForForgotPassword = async (email) => {
     return await axios.post(URL_API, data);
 };
 
+const sendOtpResetPassword = async (email, password) => {
+    const URL_API = "/v1/api/send-otp-reset";
+    const data = { email, password };
+    return await axios.post(URL_API, data);
+};
+
 const forgotPassword = async (email, otp, newPassword) => {
     const URL_API = "/v1/api/forgot-password";
     const data = { email, otp, newPassword };
@@ -167,5 +173,6 @@ export {
     getNoficationByUser,
     updateNotificationStatus,
     sendOtpForForgotPassword,
-    forgotPassword
+    forgotPassword,
+    sendOtpResetPassword
 };
