@@ -1,7 +1,7 @@
 // components/NotificationModal.js
 
 import React from 'react';
-import { Modal, List } from 'antd';
+import { Modal, List, Empty } from 'antd';
 
 const NotificationModal = ({ open, onClose, notifications }) => {
     return (
@@ -11,17 +11,21 @@ const NotificationModal = ({ open, onClose, notifications }) => {
             onCancel={onClose}
             footer={null}
         >
-            <List
-                dataSource={notifications}
-                renderItem={(item) => (
-                    <List.Item>
-                        <List.Item.Meta
-                            title={item.message}
-                            description={new Date(item.createdAt).toLocaleString()}
-                        />
-                    </List.Item>
-                )}
-            />
+            {notifications.length > 0 ? (
+                <List
+                    dataSource={notifications}
+                    renderItem={(item) => (
+                        <List.Item>
+                            <List.Item.Meta
+                                title={item.message}
+                                description={new Date(item.createdAt).toLocaleString()}
+                            />
+                        </List.Item>
+                    )}
+                />
+            ) : (
+                <Empty description="No notifications" />
+            )}
         </Modal>
     );
 };

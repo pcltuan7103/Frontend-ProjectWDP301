@@ -41,6 +41,8 @@ import ListAcceptedJobs from "./pages/Admin/ManageJobs/ListAcceptedJobs/ListAcce
 import ViewDetailJob from "./pages/ManageJobs/ListJob/ViewDetailJob.jsx";
 import VideoCall from "./pages/VideoCall/VideoCall.jsx";
 import ListApplication from "./pages/ManageJobs/ListApplication/ListApplication.jsx";
+import VerifyOtpUser from "./pages/VerifyOtp/VerifyOtpUserPage.jsx";
+import VerifyOtpEmployer from "./pages/VerifyOtp/VerifyOtpEmployerPage.jsx";
 
 const router = createBrowserRouter([
     {
@@ -84,6 +86,10 @@ const router = createBrowserRouter([
                 element: <RegisterUserPage />,
             },
             {
+                path: "verify-otp-user",
+                element: <VerifyOtpUser />
+            },
+            {
                 path: "recruitments",
                 element: <RecruitmentPage />,
             },
@@ -108,6 +114,10 @@ const router = createBrowserRouter([
     {
         path: "register-employer",
         element: <RegisterEmployer />,
+    },
+    {
+        path: "verify-otp-employer",
+        element: <VerifyOtpEmployer />
     },
     {
         path: "login-employer",

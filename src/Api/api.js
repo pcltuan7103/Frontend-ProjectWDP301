@@ -1,20 +1,56 @@
 import axios from "./axios.customize";
 
-const registerUser = (email, password, username) => {
-    const URL_API = "/v1/api/register-user";
+const registerUser = async (email, password, username) => {
+    const URL_API = "/v1/api/send-otp-user";
     const data = { email, password, username };
-    return axios.post(URL_API, data);
+
+    try {
+        return await axios.post(URL_API, data);
+    } catch (error) {
+        console.error('Error in registerUser:', error);
+        throw error; // Re-throw to handle in the calling function
+    }
+};
+
+const verifyOtpUser = async (email, otp, password, username) => {
+    const URL_API = "/v1/api/verify-otp-user";
+    const data = { email, otp, password, username };
+
+    try {
+        return await axios.post(URL_API, data);
+    } catch (error) {
+        console.error('Error in verifyOtpUser:', error);
+        throw error; // Re-throw to handle in the calling function
+    }
+};
+
+const registerEmployer = async (email, password, username) => {
+    const URL_API = "/v1/api/send-otp-employer";
+    const data = { email, password, username };
+
+    try {
+        return await axios.post(URL_API, data);
+    } catch (error) {
+        console.error('Error in registerEmployer:', error);
+        throw error; // Re-throw to handle in the calling function
+    }
+};
+
+const verifyOtpEmployer = async (email, otp, password, username) => {
+    const URL_API = "/v1/api/verify-otp-employer";
+    const data = { email, otp, password, username };
+
+    try {
+        return await axios.post(URL_API, data);
+    } catch (error) {
+        console.error('Error in verifyOtpEmployer:', error);
+        throw error; // Re-throw to handle in the calling function
+    }
 };
 
 const loginUser = (email, password) => {
     const URL_API = "/v1/api/login";
     const data = { email, password };
-    return axios.post(URL_API, data);
-};
-
-const registerEmployer = (email, password, username) => {
-    const URL_API = "/v1/api/register-employer";
-    const data = { email, password, username };
     return axios.post(URL_API, data);
 };
 
@@ -89,17 +125,19 @@ const rejectApplication = async (applicationId, data) => {
 const getNoficationByUser = (userId) => {
     const URL_API = `/v1/api/users/nofication/${userId}`;
     return axios.get(URL_API);
-}
+};
 
 const updateNotificationStatus = (userId) => {
     const URL_API = `/v1/api/users/read/${userId}`;
-    return axios.post(URL_API)
-}
+    return axios.post(URL_API);
+};
 
 export {
     registerUser,
-    loginUser,
     registerEmployer,
+    verifyOtpUser,
+    verifyOtpEmployer,
+    loginUser,
     updateUser,
     getCompany,
     createCompany,
@@ -115,5 +153,5 @@ export {
     acceptApplication,
     rejectApplication,
     getNoficationByUser,
-    updateNotificationStatus
+    updateNotificationStatus,
 };
