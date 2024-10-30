@@ -150,7 +150,23 @@ const forgotPassword = async (email, otp, newPassword) => {
     return await axios.post(URL_API, data);
 };
 
+const getAllUsers = async () => {
+    const URL_API = "/v1/api/users/get-all";
+    return await axios.get(URL_API)
+}
+
+const getAllEmployers = async () => {
+    const URL_API = "/v1/api/users/get-all-employers";
+    return await axios.get(URL_API)
+}
+
+const getUserById = async (userId) => {
+    const URL_API = `/v1/api/users/get/${userId}`;
+    return await axios.get(URL_API)
+}
+
 export {
+    getUserById,
     registerUser,
     registerEmployer,
     verifyOtpUser,
@@ -174,5 +190,7 @@ export {
     updateNotificationStatus,
     sendOtpForForgotPassword,
     forgotPassword,
-    sendOtpResetPassword
+    sendOtpResetPassword,
+    getAllUsers,
+    getAllEmployers
 };

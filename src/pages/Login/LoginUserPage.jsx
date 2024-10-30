@@ -100,7 +100,7 @@ const LoginUser = () => {
                         </Link>
                         <Divider />
                         <div style={{ textAlign: "center" }}>
-                            <Link to={"/login-user"}>Sign up</Link> new account
+                            <Link to={"/register-user"}>Sign up</Link> new account
                             here.
                         </div>
                     </fieldset>

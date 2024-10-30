@@ -50,6 +50,10 @@ import VerifyOtpForgotEmployerPage from "./pages/VerifyOtp/VerifyOtpForgotPasswo
 import DashBoardEmployer from "./pages/PostJob/DashBoardEmployer.jsx";
 import ResetPasswordUserPage from "./pages/ResetPassword/ResetPasswordUserPage.jsx";
 import VerifyResetPasswordUserPage from "./pages/VerifyOtp/VerifyResetPasswordUserPage.jsx";
+import ProfileEmployer from "./pages/ProfileUser/ProfileEmployer.jsx";
+import DashBoardAdmin from "./pages/Admin/DashBoardAdmin.jsx";
+import ListUsers from "./pages/Admin/ListAccounts/ListUsers.jsx";
+import ListEmployers from "./pages/Admin/ListAccounts/ListEmployers.jsx";
 
 const router = createBrowserRouter([
     {
@@ -167,6 +171,22 @@ const router = createBrowserRouter([
         element: <AdminPage />,
         children: [
             {
+                index: true,
+                element: <DashBoardAdmin />
+            },
+            {
+                path: "list-users",
+                element: <ListUsers />,
+            },
+            {
+                path: "list-employers",
+                element: <ListEmployers />,
+            },
+            {
+                path: "list-employers",
+                element: <ListUnacceptedJobs />,
+            },
+            {
                 path: "list-no-public-job",
                 element: <ListUnacceptedJobs />,
             },
@@ -207,6 +227,10 @@ const router = createBrowserRouter([
             {
                 path: "list-application/:id",
                 element: <ListApplication />
+            },
+            {
+                path: "profile-employer",
+                element: <ProfileEmployer />
             }
         ],
     },

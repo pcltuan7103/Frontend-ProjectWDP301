@@ -2,7 +2,10 @@ import React from "react";
 import {
     AppstoreOutlined,
     MailOutlined,
+    LogoutOutlined,
     SettingOutlined,
+    ProfileOutlined,
+    HomeOutlined
 } from "@ant-design/icons";
 import { Menu } from "antd";
 import { Link, useNavigate } from "react-router-dom";
@@ -23,7 +26,11 @@ const SideBar = () => {
     const items = [
         {
             key: "dashboard",
-            label: <Link to="/postjob">Dash Board</Link>
+            label: <Link to="/postjob">Dash Board</Link>,
+            icon: <HomeOutlined />
+        },
+        {
+            type: "divider",
         },
         {
             key: "sub1",
@@ -49,8 +56,27 @@ const SideBar = () => {
             icon: <AppstoreOutlined />,
         },
         {
-            label: <span onClick={handleLogout}>Log out</span>,
-            key: "logout",
+            type: "divider",
+        },
+        {
+            key: "setting",
+            label: "Setting",
+            icon: <SettingOutlined />,
+            children: [            
+                {
+                    key: "profile",
+                    label: <Link to="profile-employer">Profile</Link>,
+                    icon: <ProfileOutlined />
+                },
+                {
+                    type: "divider",
+                },
+                {
+                    label: <span onClick={handleLogout}>Log out</span>,
+                    key: "logout",
+                    icon: <LogoutOutlined />
+                },
+            ],
         },
     ];
 
@@ -60,8 +86,8 @@ const SideBar = () => {
                 width: 256,
                 minHeight: "100vh",
             }}
-            defaultSelectedKeys={["1"]}
-            defaultOpenKeys={["sub1"]}
+            defaultSelectedKeys={["dashboard"]}
+            defaultOpenKeys={["dashboard"]}
             mode="inline"
             items={items}
         />

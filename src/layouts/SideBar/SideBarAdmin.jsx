@@ -22,16 +22,41 @@ const SideBarAdmin = () => {
 
     const items = [
         {
+            label: <Link to="/admin">Dash Board</Link>,
             key: "sub1",
-            label: "List Jobs",
+        },
+        {
+            type: "divider",
+        },
+        {
+            key: "sub2",
+            label: "List Accounts",
             icon: <MailOutlined />,
             children: [
                 {
                     key: "1",
-                    label: <Link to="/admin/list-no-public-job">List Unaccepted Jobs</Link>,
+                    label: <Link to="/admin/list-users">User Accounts</Link>,
                 },
                 {
                     key: "2",
+                    label: <Link to="/admin/list-employers">Employer Accounts</Link>,
+                },
+            ],
+        },
+        {
+            type: "divider",
+        },
+        {
+            key: "sub3",
+            label: "List Jobs",
+            icon: <MailOutlined />,
+            children: [
+                {
+                    key: "3",
+                    label: <Link to="/admin/list-no-public-job">List Unaccepted Jobs</Link>,
+                },
+                {
+                    key: "4",
                     label: <Link to="/admin/list-public-job">List Accepted Jobs</Link>,
                 },
             ],
@@ -51,7 +76,7 @@ const SideBarAdmin = () => {
                 width: 256,
                 minHeight: "100vh",
             }}
-            defaultSelectedKeys={["1"]}
+            defaultSelectedKeys={["sub1"]}
             defaultOpenKeys={["sub1"]}
             mode="inline"
             items={items}

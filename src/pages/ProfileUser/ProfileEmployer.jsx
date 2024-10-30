@@ -1,27 +1,25 @@
-import React from "react";
-import { useSelector, useDispatch } from "react-redux";
 import { Button, Col, Form, Input, message, notification, Row } from "antd";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { updateUser } from "../../Api/api";
 import { updateUserSuccess } from "../../redux/action/userAction";
-import { updateUser } from "../../Api/api"; // Ensure this path is correct
 
-const Profile = () => {
+const ProfileEmployer = () => {
     const account = useSelector((state) => state.user.account);
     const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
-    const dispatch = useDispatch(); // To update the Redux store after updating the username
+    const dispatch = useDispatch();
 
     const onFinish = async (values) => {
         console.log("Form submitted:", values);
         try {
             const updateData = {
-                username: values.username, // Extract the updated username
+                username: values.username,
             };
 
-            // Call the updateUser API
             const res = await updateUser(account.id, updateData);
 
             console.log(res);
-            // Dispatch action to update the Redux store with the new username
-            dispatch(updateUserSuccess(res.username)); // Adjust this based on your API response
+            dispatch(updateUserSuccess(res.username));
 
             // Show a success notification
             notification.success({
@@ -35,7 +33,7 @@ const Profile = () => {
     };
 
     return (
-        <div>
+        <div style={{width: "100%"}}>
             {isAuthenticated ? (
                 <div>
                     <Row
@@ -110,4 +108,4 @@ const Profile = () => {
     );
 };
 
-export default Profile;
+export default ProfileEmployer;
