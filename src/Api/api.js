@@ -90,7 +90,7 @@ const getAcceptedJob = () => {
 };
 
 const acceptJob = (jobId) => {
-    const URL_API = `accept-job/${jobId}`;
+    const URL_API = `v1/api/admin/accept-job/${jobId}`;
     return axios.put(URL_API);
 };
 
@@ -165,6 +165,37 @@ const getUserById = async (userId) => {
     return await axios.get(URL_API)
 }
 
+const toggleUserBlockStatus = async (userId) => {
+    try {
+        const URL_API = `/v1/api/users/toggle-block/${userId}`;
+        const response = await axios.put(URL_API);
+        return response;
+    } catch (error) {
+        console.error("Error in toggleUserBlockStatus:", error);
+        throw error;
+    }
+}
+
+const getReports = async () => {
+    const URL_API = "/v1/api/admin/reports";
+    return await axios.get(URL_API)
+}
+
+const getReportById = async (id) => {
+    const URL_API = `/v1/api/admin/report/${id}`;
+    return await axios.get(URL_API)
+}
+
+const getFeedbacks = async () => {
+    const URL_API = "/v1/api/admin/feedbacks";
+    return await axios.get(URL_API)
+}
+
+const getFeedbackById = async (id) => {
+    const URL_API = `/v1/api/admin/feedback/${id}`;
+    return await axios.get(URL_API)
+}
+
 export {
     getUserById,
     registerUser,
@@ -192,5 +223,10 @@ export {
     forgotPassword,
     sendOtpResetPassword,
     getAllUsers,
-    getAllEmployers
+    getAllEmployers,
+    toggleUserBlockStatus,
+    getReports,
+    getReportById,
+    getFeedbacks,
+    getFeedbackById
 };

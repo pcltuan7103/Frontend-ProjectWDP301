@@ -16,7 +16,12 @@ const LoginUser = () => {
 
         const res = await loginUser(email, password);
 
-        if (res && res.EC === 0) {
+        if (res.user.isBlock === true) {
+            Modal.warning({
+                title: "Account Locked",
+                content: "Your account has been locked. Please contact support at 0898530964 for assistance.",
+            });
+        } else if (res && res.EC === 0) {
             localStorage.setItem("access_token", res.access_token);
             dispatch(doLogin(res));
             notification.success({

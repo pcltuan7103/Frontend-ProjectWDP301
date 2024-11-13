@@ -65,6 +65,22 @@ const SideBarAdmin = () => {
             type: "divider",
         },
         {
+            key: "sub4",
+            label: <Link to="/admin/list-reports">Manage Reports</Link>,
+            icon: <MailOutlined />,
+        },
+        {
+            type: "divider",
+        },
+        {
+            key: "sub5",
+            label: <Link to="/admin/list-feedbacks">Manage Feedbacks</Link>,
+            icon: <MailOutlined />,
+        },
+        {
+            type: "divider",
+        },
+        {
             label: <span onClick={handleLogout}>Log out</span>,
             key: "logout",
         },

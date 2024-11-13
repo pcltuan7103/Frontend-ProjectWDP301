@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Button, Col, Divider, Flex, Form, Input, notification, Row } from "antd";
+import { Button, Col, Divider, Flex, Form, Input, Modal, notification, Row } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import "./LoginUser.scss";
@@ -16,7 +16,12 @@ const LoginUser = () => {
 
         const res = await loginUser(email, password);
 
-        if (res && res.EC === 0) {
+        if (res.user.isBlock === true) {
+            Modal.warning({
+                title: "Account Locked",
+                content: "Your account has been locked. Please contact support at 0898530964 for assistance.",
+            });
+        } else if (res && res.EC === 0) {
             localStorage.setItem("access_token", res.access_token);
             dispatch(doLogin(res));
             notification.success({

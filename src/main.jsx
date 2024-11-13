@@ -54,6 +54,8 @@ import ProfileEmployer from "./pages/ProfileUser/ProfileEmployer.jsx";
 import DashBoardAdmin from "./pages/Admin/DashBoardAdmin.jsx";
 import ListUsers from "./pages/Admin/ListAccounts/ListUsers.jsx";
 import ListEmployers from "./pages/Admin/ListAccounts/ListEmployers.jsx";
+import ListReport from "./pages/Admin/ManageReport/ListReport/ListReport.jsx";
+import ListFeedbacks from "./pages/Admin/ManageJobs/ManageFeedback/ListFeedback.jsx";
 
 const router = createBrowserRouter([
     {
@@ -193,6 +195,14 @@ const router = createBrowserRouter([
             {
                 path: "list-public-job",
                 element: <ListAcceptedJobs />,
+            },
+            {
+                path: "list-reports",
+                element: <ListReport />,
+            },
+            {
+                path: "list-feedbacks",
+                element: <ListFeedbacks />,
             },
         ],
     },

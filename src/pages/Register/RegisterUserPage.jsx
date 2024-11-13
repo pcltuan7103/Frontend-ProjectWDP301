@@ -17,7 +17,6 @@ const RegisterUser = () => {
         setLoading(true); // Set loading before API call
         try {
             const res = await registerUser(email, password, username);
-            console.log(res);
 
             if (res.status === 200) {
                 notification.success({
@@ -25,9 +24,7 @@ const RegisterUser = () => {
                     description: "OTP sent successfully",
                 });
                 navigate("/verify-otp-user", { state: { email, password, username } });
-            }
-
-            if (res.message = 'User with this email already exists'){
+            } else if (res.message = 'User with this email already exists'){
                 notification.error({
                     message: "SIGN UP USER",
                     description: res.message
@@ -61,7 +58,6 @@ const RegisterUser = () => {
                             <Form.Item label="User Name" name="username" rules={[{ required: true, message: "Please input your name!" }]}>
                                 <Input />
                             </Form.Item>
-
                             <Form.Item>
                                 <Button type="primary" htmlType="submit" loading={loading}>
                                     Submit

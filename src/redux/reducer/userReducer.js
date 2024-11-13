@@ -12,6 +12,7 @@ const INITIAL_STATE = {
     username: "",
     role: "",
     id: "",
+    isBlock: "",
   },
   isAuthenticated: false,
 };
@@ -26,7 +27,8 @@ const userReducer = (state = INITIAL_STATE, action) => {
           username: action?.payload?.user?.username,
           role: action?.payload?.user?.role?.name,
           email: action?.payload?.user?.email,
-          id: action?.payload?.user?._id, // dcm m đây r userid
+          id: action?.payload?.user?._id, 
+          isBlock: action?.payload?.user?.isBlock,
         },
         isAuthenticated: true,
       };

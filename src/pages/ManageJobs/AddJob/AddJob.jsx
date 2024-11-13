@@ -57,6 +57,16 @@ const AddJob = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        const today = new Date().toISOString().split("T")[0];
+        if (formData.due_to <= today) {
+            notification.error({
+                message: "Invalid Due Date",
+                description: "The due date must be later than today.",
+            });
+            return;
+        }
+
         try {
             await createJob(formData);  // Await the API call
             setFormData({

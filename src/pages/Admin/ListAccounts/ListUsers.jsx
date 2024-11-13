@@ -1,6 +1,6 @@
-import { Button, Modal, Table } from "antd";
+import { Button, Modal, notification, Table } from "antd";
 import React, { useEffect, useState } from "react";
-import { getAllUsers, getUserById } from "../../../Api/api";
+import { getAllUsers, getUserById, toggleUserBlockStatus } from "../../../Api/api";
 
 const ListUsers = () => {
     const [dataUsers, setDataUsers] = useState([]);
@@ -14,6 +14,7 @@ const ListUsers = () => {
     const fetchData = async () => {
         try {
             const res = await getAllUsers();
+            console.log(res)
             setDataUsers(res.map(user => ({ ...user, key: user._id }))); // Ensure each user has a unique key
         } catch (error) {
             console.error("Error fetching users:", error);
@@ -35,6 +36,27 @@ const ListUsers = () => {
         setDataUser(null);
     };
 
+    const toggleBlockStatus = async (userId) => {
+        try {
+            const res = await toggleUserBlockStatus(userId);
+            console.log(res); // Log the entire response to inspect it
+            
+            if (res.message === "User isBlock status updated to false" || res.message === "User isBlock status updated to true") {
+                notification.success({
+                    message: "Account Status Updated",
+                    description: `Account is now ${res.user.isBlock ? "Blocked" : "Active"}`, // Correctly access res.user.isBlock
+                });
+                fetchData();
+            }
+        } catch (error) {
+            console.error("Error toggling block status:", error);
+            notification.error({
+                message: "Error",
+                description: "Failed to update user status",
+            });
+        }
+    };
+
     const columns = [
         {
             title: "Email",
@@ -47,15 +69,21 @@ const ListUsers = () => {
             key: "username",
         },
         {
+            title: "Status",
+            dataIndex: "isBlock",
+            key: "isBlock",
+            render: (isBlock) => (isBlock ? "Blocked" : "Active"),
+        },
+        {
             title: "Actions",
             key: "action",
             render: (text, record) => (
                 <>
-                    <Button type="primary" onClick={() => fetchUser(record._id)}> {/* Use _id here */}
+                    <Button type="primary" onClick={() => fetchUser(record._id)}>
                         View
                     </Button>
-                    <Button type="warning" onClick={() => {}}>
-                        Edit
+                    <Button type="default" onClick={() => toggleBlockStatus(record._id)}>
+                        {record.isBlock ? "Unblock" : "Block"}
                     </Button>
                 </>
             ),

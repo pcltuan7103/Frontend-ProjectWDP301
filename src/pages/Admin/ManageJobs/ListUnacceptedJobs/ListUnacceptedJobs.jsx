@@ -10,15 +10,18 @@ const ListUnacceptedJobs = () => {
     }, []);
 
     const fetchJob = async () => {
-        const res = await getUnacceptedJob();
-        setDataJob(res.jobs);
+        try {
+            const res = await getUnacceptedJob();
+            setDataJob(res.jobs || []); // Ensure it's an array, even if `res.jobs` is undefined
+        } catch (error) {
+            console.error("Error fetching jobs:", error);
+            setDataJob([]); // Set an empty array on error
+        }
     };
 
     // Handle reject job
     const handleReject = (jobId) => {
-        // Implement your reject logic here
         message.error(`Job ${jobId} rejected!`);
-        // Optionally refresh the job list
         fetchJob();
     };
 
@@ -51,9 +54,9 @@ const ListUnacceptedJobs = () => {
             render: (due_to) => new Date(due_to).toLocaleDateString(),
         },
         {
-            title: "Actions", // New column for actions
+            title: "Actions",
             key: "action",
-            render: (text, record) => ( // 'text' is the text of the cell, 'record' is the entire row data
+            render: (text, record) => (
                 <>
                     <Button type="primary" onClick={() => handleAccept(record.key)}>
                         Accept
@@ -66,25 +69,25 @@ const ListUnacceptedJobs = () => {
         },
     ];
 
-    // Map job data to the dataSource format for the table
-    const data = dataJob.map((job) => ({
-        key: job._id, // Unique key for each job
+    // Map job data to the dataSource format for the table, safely handling an empty `dataJob`
+    const data = dataJob?.map((job) => ({
+        key: job._id,
         title: job.title,
         description: job.description,
         detailed_location: job.detailed_location,
         isPublic: job.isPublic,
         due_to: job.due_to,
-    }));
+    })) || [];
 
     const handleAccept = async (jobId) => {
-      try {
-          await acceptJob(jobId); // Call the API to accept the job
-          message.success(`Job ${jobId} accepted!`);
-          fetchJob(); // Refresh the job list
-      } catch (error) {
-          message.error(`Error accepting job: ${error.message}`);
-      }
-  };
+        try {
+            await acceptJob(jobId); // Call the API to accept the job
+            message.success(`Job ${jobId} accepted!`);
+            fetchJob(); // Refresh the job list
+        } catch (error) {
+            message.error(`Error accepting job: ${error.message}`);
+        }
+    };
 
     return (
         <div className="list-jobs-company">

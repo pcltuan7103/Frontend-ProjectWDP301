@@ -1,6 +1,6 @@
-import { Button, Modal, Table } from "antd";
+import { Button, Modal, notification, Table } from "antd";
 import React, { useEffect, useState } from "react";
-import { getAllEmployers, getUserById } from "../../../Api/api"; // Make sure to implement getEmployerById
+import { getAllEmployers, getUserById, toggleUserBlockStatus } from "../../../Api/api"; // Make sure to implement getEmployerById
 
 const ListEmployers = () => {
     const [dataEmployers, setDataEmployers] = useState([]);
@@ -35,6 +35,25 @@ const ListEmployers = () => {
         setDataEmployer(null);
     };
 
+    const toggleBlockStatus = async (userId) => {
+        try {
+            const res = await toggleUserBlockStatus(userId);            
+            if (res.message === "User isBlock status updated to false" || res.message === "User isBlock status updated to true") {
+                notification.success({
+                    message: "Account Status Updated",
+                    description: `Account is now ${res.user.isBlock ? "Blocked" : "Active"}`, // Correctly access res.user.isBlock
+                });
+                fetchData();
+            }
+        } catch (error) {
+            console.error("Error toggling block status:", error);
+            notification.error({
+                message: "Error",
+                description: "Failed to update user status",
+            });
+        }
+    };
+
     const columns = [
         {
             title: "Email",
@@ -47,12 +66,21 @@ const ListEmployers = () => {
             key: "username",
         },
         {
+            title: "Status",
+            dataIndex: "isBlock",
+            key: "isBlock",
+            render: (isBlock) => (isBlock ? "Blocked" : "Active"),
+        },
+        {
             title: "Actions",
             key: "action",
             render: (text, record) => (
                 <>
                     <Button type="primary" onClick={() => fetchEmployer(record._id)}>
                         View
+                    </Button>
+                    <Button type="default" onClick={() => toggleBlockStatus(record._id)}>
+                        {record.isBlock ? "Unblock" : "Block"}
                     </Button>
                 </>
             ),
