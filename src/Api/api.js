@@ -115,11 +115,11 @@ const getApplicationByJob = (jobId) => {
 };
 
 const acceptApplication = async (applicationId, data) => {
-    return await axios.post(`/application/${applicationId}/accept`, data);
+    return await axios.put(`/application/${applicationId}/accept`, data);  // Use PUT instead of POST
 };
 
 const rejectApplication = async (applicationId, data) => {
-    return await axios.post(`/application/${applicationId}/reject`, data);
+    return await axios.put(`/application/${applicationId}/reject`, data);  // Use PUT instead of POST
 };
 
 const getNoficationByUser = (userId) => {
